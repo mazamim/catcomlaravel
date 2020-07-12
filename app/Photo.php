@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Photo extends Model
 {
     protected $table = 'photos';
-    protected $fillable = ['url','emp_id'];
+    protected $fillable = ['url','emp_id','description'];
 
     public function employee(){
 

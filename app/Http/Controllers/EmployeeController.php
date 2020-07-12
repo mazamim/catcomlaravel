@@ -116,6 +116,17 @@ class EmployeeController extends Controller
 
             Cloudder::upload($request->file('image'));
             $cloundary_upload = Cloudder::getResult();
+                if ($cloundary_upload)
+                {
+                    $photo = new Photo();
+                    $photo->emp_id = $id;
+                   // $photo->url = Cloudder::show(Cloudder::getPublicId());
+                   $photo->url = $cloundary_upload['url'];
+                    $photo->description = $cloundary_upload['public_id'];;
+                    $photo->save();
+
+
+                }
 
         }
 
@@ -126,4 +137,25 @@ class EmployeeController extends Controller
     return "Employee Not found"; // temporary error
 
     }
+
+
+    public function cloudgetUrl($id)
+    {
+        $url = DB::table('photos')
+        ->where('emp_id', '=', $id)
+        ->get();
+        return response()->json($url,200);
+
+    }
+
+public function countrecords($model)
+{
+//$count = Model::where('status','=','1')->count();
+
+$count = $model::count();
+
+return response()->json($count,200);
+
+}
+
 }
