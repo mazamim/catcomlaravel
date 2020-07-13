@@ -28,8 +28,9 @@ Route::delete('employee/{id}', 'EmployeeController@destroy');
 
 Route::post('employeecloud/{id}', 'EmployeeController@cloud')->middleware("cors");
 Route::get('employeecloud/{id}', 'EmployeeController@cloudgetUrl')->middleware("cors");
+Route::delete('employeedoc/{id}', 'EmployeeController@deleteDocuments');
 
-Route::get('count/{model}', 'EmployeeController@countrecords')->middleware("cors");
+
 
 
 

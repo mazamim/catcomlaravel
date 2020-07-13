@@ -59,6 +59,12 @@ class EmployeeController extends Controller
         $emp->description = $request->input('description');
         $emp->mobile = $request->input('mobile');
         $emp->emailadd = $request->input('emailadd');
+        $emp->skills = $request->input('skills');
+        $emp->address = $request->input('address');
+        $emp->salarytype = $request->input('salarytype');
+        $emp->salary = $request->input('salary');
+        $emp->payment_mode = $request->input('payment_mode');
+        $emp->bankdetails = $request->input('bankdetails');
         $emp->save();
 
         return response()->json($emp,200);
@@ -71,6 +77,11 @@ class EmployeeController extends Controller
             return response()->json(null,204);
         }
         return "Error while deleting";
+    }
+    public function deleteDocuments($id)
+    {
+        DB::table('photos')->where('emp_id', '=', $id)->delete();
+        return response()->json(null,204);
     }
 
     public function showmyPic($id)
@@ -148,14 +159,6 @@ class EmployeeController extends Controller
 
     }
 
-public function countrecords($model)
-{
-//$count = Model::where('status','=','1')->count();
 
-$count = $model::count();
-
-return response()->json($count,200);
-
-}
 
 }

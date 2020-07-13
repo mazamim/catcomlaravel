@@ -20,7 +20,13 @@ class CreateEmployeesTable extends Migration
             $table->string('position');
             $table->string('mobile');
             $table->string('emailadd');
-            $table->text('description');
+            $table->text('description')->nullable();
+            $table->text('skills')->nullable();
+            $table->string('address')->nullable();
+            $table->string('salarytype')->nullable();
+            $table->float('salary')->nullable();
+            $table->string('payment_mode')->nullable();
+            $table->string('bankdetails')->nullable();
             $table->timestamps();
         });
     }
