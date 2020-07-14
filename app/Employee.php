@@ -15,4 +15,11 @@ class Employee extends Model
         return $this->hasMany(Photo::class);
 
     }
+
+    function myattendance()
+    {
+        return $this->hasMany(Attendance::class);
+
+    }
 }
+
