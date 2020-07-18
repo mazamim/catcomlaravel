@@ -23,6 +23,9 @@ Route::get('employee/{id}', 'EmployeeController@show');
 Route::get('employeepic/{id}', 'EmployeeController@showmyPic')->middleware("cors");
 Route::post('employeepic/{id}', 'EmployeeController@postmyPic')->middleware("cors");
 Route::post('employee', 'EmployeeController@store')->middleware("cors");
+Route::post('attendance', 'EmployeeController@saveAttendance')->middleware("cors");
+Route::put('attendance', 'EmployeeController@updateAttendance');
+Route::get('attendance/{id}', 'EmployeeController@checkAttendance');
 Route::put('employee/{id}', 'EmployeeController@update');
 Route::delete('employee/{id}', 'EmployeeController@destroy');
 

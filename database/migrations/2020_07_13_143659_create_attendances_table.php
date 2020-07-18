@@ -16,13 +16,11 @@ class CreateAttendancesTable extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('emp_id')->unsigned();
-            $table->date('tDate');
             $table->dateTime('punchIn');
-            $table->dateTime('punchOut');
-            $table->time('break');
-            $table->time('OT');
+            $table->dateTime('punchOut')->nullable;
             $table->timestamps();
-            $table->foreign('emp_id')->references('id')->on('employees');
+
+        $table->foreign('emp_id')->references('id')->on('employees');
 
 
         });

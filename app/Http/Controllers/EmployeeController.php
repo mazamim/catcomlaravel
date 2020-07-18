@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\EmployeeResource;
 use App\Employee;
+use App\Attendance;
 use App\Photo;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use JD\Cloudder\Facades\Cloudder;
+
+use Illuminate\Support\Carbon;
 
 class EmployeeController extends Controller
 {
@@ -34,6 +37,36 @@ class EmployeeController extends Controller
 
         $emp->save();
         return response()->json($emp,201);
+
+    }
+    public function saveAttendance(Request $request)
+    {
+
+      if (DB::table('attendances')
+      ->where('emp_id', '=', $request->input('emp_id'))
+      ->where('punchOut', '=','1986/12/24 08:00:00')
+      ->exists())
+      {
+        return "Already sign in";
+
+      }
+
+
+        $emp = new Attendance();
+
+        $emp->punchIn = $request->input('punchIn');
+        $rerurnPuchIN = date('Y-m-d H:i:s', strtotime($emp->punchIn));
+
+        $emp->punchOut = $request->input('punchOut');
+        $rerurnpunchOut = date('Y-m-d H:i:s', strtotime($emp->punchOut));
+
+        $emp->emp_id = $request->input('emp_id');
+        $emp->punchIn=$rerurnPuchIN;
+        $emp->punchOut=$rerurnpunchOut;
+
+        $emp->save();
+
+      return response()->json($emp,201);
 
     }
 
@@ -69,6 +102,45 @@ class EmployeeController extends Controller
 
         return response()->json($emp,200);
     }
+
+    public function updateAttendance(Request $request)
+    {
+
+       // $emp = Attendance::find($id);
+
+
+
+      if (DB::table('attendances')
+      ->where('emp_id', '=', $request->input('emp_id'))
+      ->where('punchOut', '=','1986/12/24 08:00:00')
+      ->exists())
+      {
+
+        DB::table('attendances')->update(['punchOut' => $request->input('punchOut')]);
+        return response(200);
+      }
+
+
+
+    }
+
+    public function checkAttendance($id)
+    {
+
+        if (DB::table('attendances')
+        ->where('emp_id', '=', $id)
+        ->where('punchOut', '=','1986/12/24 08:00:00')
+        ->exists())
+        {
+
+          return response(200);
+        }
+        {
+
+            return "not found";
+        }
+    }
+
 
     public function destroy($id)
     {
@@ -158,6 +230,8 @@ class EmployeeController extends Controller
         return response()->json($url,200);
 
     }
+
+
 
 
 
