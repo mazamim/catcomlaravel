@@ -28,6 +28,7 @@ Route::put('attendance', 'EmployeeController@updateAttendance');
 Route::get('attendance/{id}', 'EmployeeController@checkAttendance');
 Route::put('employee/{id}', 'EmployeeController@update');
 Route::delete('employee/{id}', 'EmployeeController@destroy');
+Route::get('attendancelist', 'EmployeeController@attendancelist');
 
 Route::post('employeecloud/{id}', 'EmployeeController@cloud')->middleware("cors");
 Route::get('employeecloud/{id}', 'EmployeeController@cloudgetUrl')->middleware("cors");

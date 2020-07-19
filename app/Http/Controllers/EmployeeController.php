@@ -116,7 +116,10 @@ class EmployeeController extends Controller
       ->exists())
       {
 
-        DB::table('attendances')->update(['punchOut' => $request->input('punchOut')]);
+        DB::table('attendances')
+        ->where('emp_id', '=', $request->input('emp_id'))
+        ->where('punchOut', '=','1986/12/24 08:00:00')
+        ->update(['punchOut' => $request->input('punchOut')]);
         return response(200);
       }
 
@@ -133,12 +136,27 @@ class EmployeeController extends Controller
         ->exists())
         {
 
-          return response(200);
+            $data = DB::table('attendances')
+            ->where('emp_id', '=', $id)
+            ->where('punchOut', '=','1986/12/24 08:00:00')
+            ->get();
+            return response()->json($data,200);
         }
         {
 
             return "not found";
         }
+    }
+
+    public function attendancelist()
+    {
+        $users = DB::table('attendances')
+        ->join('employees', 'employees.id', '=', 'attendances.emp_id')
+        ->select('attendances.*', 'employees.emp_name')
+        ->get()->toArray();
+
+        return response()->json($users,200);
+
     }
 
 
