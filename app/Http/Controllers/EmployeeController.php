@@ -72,6 +72,35 @@ class EmployeeController extends Controller
 
     }
 
+  //  Route::post('attendancelistbydate', 'EmployeeController@listbydate')->middleware("cors");
+  public function listbydate(Request $request)
+  {
+
+if ($request->input('emp_id'))
+{
+    $users = DB::table('attendances')
+    ->where('emp_id', '=', $request->input('emp_id'))
+    ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
+    ->get();
+
+    return response()->json($users,201);
+
+}
+else
+{
+
+    $users = DB::table('attendances')
+    ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
+    ->get();
+
+    return response()->json($users,201);
+
+}
+
+
+  }
+
+
     public function show($id)
     {
        /*return response()->json(Employee::find($id),200);*/
@@ -105,7 +134,7 @@ class EmployeeController extends Controller
         return response()->json($emp,200);
     }
 
-   
+
    //Route::put('attendance', 'EmployeeController@updateAttendance');
     public function updateAttendance(Request $request)
     {

@@ -24,12 +24,15 @@ Route::get('employeepic/{id}', 'EmployeeController@showmyPic')->middleware("cors
 Route::post('employeepic/{id}', 'EmployeeController@postmyPic')->middleware("cors");
 Route::post('employee', 'EmployeeController@store')->middleware("cors");
 Route::post('attendance', 'EmployeeController@saveAttendance')->middleware("cors");
+
+
 Route::put('attendance', 'EmployeeController@updateAttendance');
 Route::get('attendance/{id}', 'EmployeeController@checkAttendance');
 Route::get('attendanceall', 'EmployeeController@checkAttendanceAll');
 Route::put('employee/{id}', 'EmployeeController@update');
 Route::delete('employee/{id}', 'EmployeeController@destroy');
 Route::get('attendancelist', 'EmployeeController@attendancelist');
+Route::post('attendancelistbydate', 'EmployeeController@listbydate')->middleware("cors");
 
 Route::post('employeecloud/{id}', 'EmployeeController@cloud')->middleware("cors");
 Route::get('employeecloud/{id}', 'EmployeeController@cloudgetUrl')->middleware("cors");
