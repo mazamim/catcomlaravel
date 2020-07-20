@@ -39,6 +39,8 @@ class EmployeeController extends Controller
         return response()->json($emp,201);
 
     }
+
+    //Route::post('attendance', 'EmployeeController@saveAttendance')->middleware("cors");
     public function saveAttendance(Request $request)
     {
 
@@ -103,12 +105,10 @@ class EmployeeController extends Controller
         return response()->json($emp,200);
     }
 
+   
+   //Route::put('attendance', 'EmployeeController@updateAttendance');
     public function updateAttendance(Request $request)
     {
-
-       // $emp = Attendance::find($id);
-
-
 
       if (DB::table('attendances')
       ->where('emp_id', '=', $request->input('emp_id'))
@@ -124,9 +124,9 @@ class EmployeeController extends Controller
       }
 
 
-
     }
 
+//Route::get('attendance/{id}', 'EmployeeController@checkAttendance');
     public function checkAttendance($id)
     {
 
@@ -148,6 +148,27 @@ class EmployeeController extends Controller
         }
     }
 
+//Route::get('attendanceall', 'EmployeeController@checkAttendanceAll');
+    public function checkAttendanceAll()
+    {
+
+        if (DB::table('attendances')
+        ->where('punchOut', '=','1986/12/24 08:00:00')
+        ->exists())
+        {
+
+            $data = DB::table('attendances')
+            ->where('punchOut', '=','1986/12/24 08:00:00')
+            ->get();
+            return response()->json($data,200);
+        }
+        {
+
+            return "not found";
+        }
+    }
+
+    //Route::get('attendancelist', 'EmployeeController@attendancelist');
     public function attendancelist()
     {
         $users = DB::table('attendances')
