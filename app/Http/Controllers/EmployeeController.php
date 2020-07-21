@@ -76,7 +76,18 @@ class EmployeeController extends Controller
   public function listbydate(Request $request)
   {
 
-if ($request->input('emp_id'))
+    if($request->has('all'))
+    {
+
+    $users = DB::table('attendances')
+    ->orderByRaw('updated_at - created_at DESC')
+    ->get();
+
+    return response()->json($users,201);
+    }
+
+
+elseif ($request->input('emp_id'))
 {
     $users = DB::table('attendances')
     ->where('emp_id', '=', $request->input('emp_id'))
