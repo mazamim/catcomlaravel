@@ -76,12 +76,18 @@ class EmployeeController extends Controller
   public function listbydate(Request $request)
   {
 
-    if($request->has('all'))
+    if($request->input('emp_id')=="all")
     {
 
     $users = DB::table('attendances')
-    ->orderByRaw('updated_at - created_at DESC')
-    ->get();
+    ->join('employees', 'employees.id', '=', 'attendances.emp_id')
+    ->select('attendances.*', 'employees.emp_name')
+  //  ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
+    ->get()
+    ->toArray();
+
+
+
 
     return response()->json($users,201);
     }
@@ -90,9 +96,12 @@ class EmployeeController extends Controller
 elseif ($request->input('emp_id'))
 {
     $users = DB::table('attendances')
+    ->join('employees', 'employees.id', '=', 'attendances.emp_id')
+    ->select('attendances.*', 'employees.emp_name')
     ->where('emp_id', '=', $request->input('emp_id'))
     ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
-    ->get();
+    ->get()
+    ->toArray();
 
     return response()->json($users,201);
 
@@ -101,8 +110,11 @@ else
 {
 
     $users = DB::table('attendances')
+    ->join('employees', 'employees.id', '=', 'attendances.emp_id')
+    ->select('attendances.*', 'employees.emp_name')
     ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
-    ->get();
+    ->get()
+    ->toArray();
 
     return response()->json($users,201);
 
