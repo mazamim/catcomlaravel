@@ -5,24 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\EmployeeResource;
 use App\Employee;
-use App\Task;
 use App\Attendance;
 use App\Photo;
 use App\MyProject;
+use App\Customer;
+use App\Client;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use JD\Cloudder\Facades\Cloudder;
 
-class ProjectController extends Controller
+use Illuminate\Support\Carbon;
+
+class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return response()->json(Project::get(),200);
+        return response()->json(Customer::get(),200);
     }
 
 
@@ -34,12 +32,12 @@ class ProjectController extends Controller
   
     public function store(Request $request)
     {
-        $data = new Project();
-        $data->address = $request->input('address');
-        $data->jobType = $request->input('jobType');
-        $data->describtion = $request->input('describtion');
-        $data->status = $request->input('status');
-        $data->remarks = $request->input('remarks');
+        $data = new Customer();
+        $data->cus_name = $request->input('cus_name');
+        $data->mobile = $request->input('mobile');
+        $data->emailadd = $request->input('emailadd');
+        $data->description = $request->input('description');
+     
 
         $data->save();
         return response()->json($data,201);
@@ -48,7 +46,7 @@ class ProjectController extends Controller
  
     public function show($id)
     {
-        $article = Project::find($id); //id comes from route
+        $article = Customer::find($id); //id comes from route
         if( $article ){
          return response()->json($article,200);
         }
@@ -69,7 +67,7 @@ class ProjectController extends Controller
   
     public function destroy($id)
     {
-        $data = Project::findOrfail($id);
+        $data = Customer::findOrfail($id);
         if($data->delete()){
             return response()->json(null,204);
         }

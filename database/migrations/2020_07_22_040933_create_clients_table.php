@@ -17,7 +17,7 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('client_name');
             $table->string('mobile');
-            $table->string('emailadd');
+            $table->string('emailadd')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });
