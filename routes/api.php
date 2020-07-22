@@ -39,8 +39,15 @@ Route::delete('employeedoc/{id}', 'EmployeeController@deleteDocuments');
 //tasks routes
 Route::get('tasks', 'TaskController@index')->middleware("cors");
 Route::post('tasks', 'TaskController@store')->middleware("cors");
-Route::get('task/{id}', 'TaskController@show');
-Route::delete('task/{id}', 'TaskController@destroy');
+Route::get('task/{id}', 'TaskController@show')->middleware("cors");
+Route::delete('task/{id}', 'TaskController@destroy')->middleware("cors");
+
+
+//projects routes
+Route::get('projects', 'ProjectController@index')->middleware("cors");
+Route::post('projects', 'ProjectController@store')->middleware("cors");
+Route::get('project/{id}', 'ProjectController@show')->middleware("cors");
+Route::delete('projects/{id}', 'ProjectController@destroy')->middleware("cors");
 
 
 
