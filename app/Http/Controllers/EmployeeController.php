@@ -141,7 +141,7 @@ else
 
         $emp = Employee::find($id);
         $emp->emp_name = $request->input('emp_name');
-        $emp->emp_name = $request->input('lastname');
+        $emp->lastname = $request->input('lastname');
         $emp->position = $request->input('position');
         $emp->description = $request->input('description');
         $emp->mobile = $request->input('mobile');
@@ -277,6 +277,7 @@ else
         return "Employee Not found"; // temporary error
     }
 
+    //Route::post('employeecloud/{id}', 'EmployeeController@cloud')->middleware("cors");
     public function cloud(Request $request,$id)
     {
 

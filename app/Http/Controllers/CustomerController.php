@@ -20,16 +20,22 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        return response()->json(Customer::get(),200);
+
+        $data = DB::table('customers')
+                ->orderBy('id','DESC')
+                ->limit(10)
+                ->get();
+
+                return response()->json($data,200);
     }
 
 
     public function create()
     {
-  
+
     }
 
-  
+
     public function store(Request $request)
     {
         $data = new Customer();
@@ -37,13 +43,13 @@ class CustomerController extends Controller
         $data->mobile = $request->input('mobile');
         $data->emailadd = $request->input('emailadd');
         $data->description = $request->input('description');
-     
+
 
         $data->save();
         return response()->json($data,201);
     }
 
- 
+
     public function show($id)
     {
         $article = Customer::find($id); //id comes from route
@@ -53,7 +59,7 @@ class CustomerController extends Controller
         return "Task Not found"; // temporary error
     }
 
-  
+
     public function edit($id)
     {
         //
@@ -64,7 +70,7 @@ class CustomerController extends Controller
         //
     }
 
-  
+
     public function destroy($id)
     {
         $data = Customer::findOrfail($id);
