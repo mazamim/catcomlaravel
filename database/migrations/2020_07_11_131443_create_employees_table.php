@@ -27,6 +27,7 @@ class CreateEmployeesTable extends Migration
             $table->float('salary')->nullable();
             $table->string('payment_mode')->nullable();
             $table->string('bankdetails')->nullable();
+            $table->string('Status')->nullable();
             $table->timestamps();
         });
     }
