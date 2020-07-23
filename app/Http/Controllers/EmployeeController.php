@@ -297,7 +297,7 @@ else
                     $photo->emp_id = $id;
                    // $photo->url = Cloudder::show(Cloudder::getPublicId());
                    $photo->url = $cloundary_upload['url'];
-                    $photo->description = $cloundary_upload['public_id'];;
+                    $photo->description = $request->get('ImageCaption');
                     $photo->save();
 
 
