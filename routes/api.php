@@ -49,6 +49,7 @@ Route::get('projects', 'ProjectController@index')->middleware("cors");
 Route::post('projects', 'ProjectController@store')->middleware("cors");
 Route::get('project/{id}', 'ProjectController@show')->middleware("cors");
 Route::delete('project/{id}', 'ProjectController@destroy')->middleware("cors");
+Route::put('project/{id}', 'ProjectController@update')->middleware("cors");
 
 //Customer routes
 Route::get('customers', 'CustomerController@index')->middleware("cors");

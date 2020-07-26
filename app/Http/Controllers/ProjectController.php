@@ -9,6 +9,7 @@ use App\Task;
 use App\Attendance;
 use App\Photo;
 use App\MyProject;
+use App\Ticketchild;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use JD\Cloudder\Facades\Cloudder;
@@ -22,7 +23,14 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return response()->json(MyProject::get(),200);
+        //return response()->json(MyProject::get(),200);
+        $data = DB::table('my_projects')
+        ->join('customers', 'customers.id', '=', 'my_projects.cus_id')
+        ->join('clients', 'clients.id', '=', 'my_projects.cus_id')
+        ->select('my_projects.*', 'customers.cus_name','clients.client_name')
+        ->get();
+       // ->simplePaginate(15);
+        return response()->json($data,200);
     }
 
 
@@ -68,9 +76,39 @@ class ProjectController extends Controller
         //
     }
 
+    //Route::put('project/{id}', 'ProjectController@update')->middleware("cors");
     public function update(Request $request, $id)
     {
-        //
+
+        $data = MyProject::find($id);
+        $data->address = $request->input('address');
+        $data->jobType = $request->input('jobType');
+        $data->describtion = $request->input('describtion');
+        $data->status = $request->input('status');
+        $data->remarks = $request->input('remarks');
+        $data->cus_id = $request->input('cus_id');
+        $data->client_id = $request->input('cus_id');
+
+        $data->save();
+
+      //  $data1 = new Ticketchild();
+      if ($request->has('emp_names.0')){
+
+   foreach($request->input('emp_names') as $value)
+   {
+    $data1 = new Ticketchild();
+    $data1->emp_id  = $value;
+    $data1->project_id = $id;
+    $data1->save();
+   }
+
+
+
+   return response()->json(null,200);
+
+}
+
+return response()->json($data,200);
     }
 
 
