@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //employee routes
 Route::get('employees', 'EmployeeController@index');
+Route::get('employeenames', 'EmployeeController@employeenames'); //only names
 Route::get('employee/{id}', 'EmployeeController@show');
 Route::get('employeepic/{id}', 'EmployeeController@showmyPic')->middleware("cors");
 Route::post('employeepic/{id}', 'EmployeeController@postmyPic')->middleware("cors");
@@ -47,7 +48,7 @@ Route::delete('task/{id}', 'TaskController@destroy')->middleware("cors");
 Route::get('projects', 'ProjectController@index')->middleware("cors");
 Route::post('projects', 'ProjectController@store')->middleware("cors");
 Route::get('project/{id}', 'ProjectController@show')->middleware("cors");
-Route::delete('projects/{id}', 'ProjectController@destroy')->middleware("cors");
+Route::delete('project/{id}', 'ProjectController@destroy')->middleware("cors");
 
 //Customer routes
 Route::get('customers', 'CustomerController@index')->middleware("cors");

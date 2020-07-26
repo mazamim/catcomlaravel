@@ -19,7 +19,7 @@ class CreateMyProjectsTable extends Migration
             $table->string('jobType');
             $table->string('describtion');
             $table->string('status');
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->unsignedBigInteger('cus_id');
             $table->unsignedBigInteger('client_id');
             $table->timestamps();

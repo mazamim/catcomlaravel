@@ -158,6 +158,21 @@ else
     }
 
 
+   // Route::get('employeenames', 'EmployeeController@employeenames'); //only names
+   public function employeenames()
+   {
+
+
+
+   $data = DB::table('employees')
+   ->select('emp_name')
+   ->get();
+
+
+   return $data;
+
+   }
+
    //Route::put('attendance', 'EmployeeController@updateAttendance');
     public function updateAttendance(Request $request)
     {

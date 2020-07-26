@@ -19,6 +19,7 @@ class CreateCustomersTable extends Migration
             $table->string('mobile');
             $table->string('emailadd')->nullable();
             $table->text('description')->nullable();
+            $table->string('Status')->default('Pending');
             $table->timestamps();
         });
     }
