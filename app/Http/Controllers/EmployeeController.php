@@ -79,14 +79,19 @@ class EmployeeController extends Controller
     if($request->input('emp_id')=="all")
     {
 
+    // $users = DB::table('attendances')
+    // ->join('employees', 'employees.id', '=', 'attendances.emp_id')
+    // ->select('attendances.*', 'employees.emp_name')
+    // ->get()
+    // ->toArray();
+
+    $different_days=6;
+
     $users = DB::table('attendances')
     ->join('employees', 'employees.id', '=', 'attendances.emp_id')
-    ->select('attendances.*', 'employees.emp_name')
-  //  ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
+    ->select(DB::raw('attendances.*'),'employees.emp_name')
     ->get()
     ->toArray();
-
-
 
 
     return response()->json($users,201);
