@@ -84,8 +84,7 @@ class EmployeeController extends Controller
     // ->select('attendances.*', 'employees.emp_name')
     // ->get()
     // ->toArray();
-
-    $different_days=6;
+    $rerurnpunchOut = date('Y-m-d H:i:s', strtotime($emp->punchOut));
 
     $users = DB::table('attendances')
     ->join('employees', 'employees.id', '=', 'attendances.emp_id')
