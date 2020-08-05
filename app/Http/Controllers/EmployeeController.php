@@ -79,13 +79,15 @@ class EmployeeController extends Controller
     if($request->input('emp_id')=="all")
     {
 
-        // $startTime = Carbon::parse('2020-02-11 04:04:26');
-        // $endTime = Carbon::parse('2020-02-11 04:36:56');
-        // $totalDuration = $endTime->diffForHumans($startTime);
-
    $users = DB::table('attendances')
    ->join('employees', 'employees.id', '=', 'attendances.emp_id')
-   ->select('attendances.*', 'employees.emp_name',DB::raw('TIMEDIFF(attendances.punchOut,attendances.punchIn) as timediff' ))
+   //->select('attendances.*', 'employees.emp_name',DB::raw('TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut) as timediff' ))
+  ->select('attendances.*', 'employees.emp_name',
+  DB::raw('case when TIMEDIFF(attendances.punchOut,attendances.punchIn) > 0 then TIMEDIFF(attendances.punchOut,attendances.punchIn) ELSE 0 END as timediff' ),
+  DB::raw('case when TIMEDIFF(attendances.punchOut,attendances.punchIn) > 0 then TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut) ELSE 0 END as timediffminutes' ),
+  DB::raw('case when TIMEDIFF(attendances.punchOut,attendances.punchIn) > 0 then ROUND(((employees.salary)/60) * TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut),2)  ELSE 0 END as earned' )
+ // DB::raw('ROUND(((employees.salary)/60) * TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut),2) as earned')
+  )
    ->get()
    ->toArray();
 
@@ -100,7 +102,12 @@ elseif ($request->input('emp_id'))
 {
     $users = DB::table('attendances')
     ->join('employees', 'employees.id', '=', 'attendances.emp_id')
-    ->select('attendances.*', 'employees.emp_name',DB::raw('TIMEDIFF(attendances.punchOut,attendances.punchIn) as timediff' ))
+    ->select('attendances.*', 'employees.emp_name',
+    DB::raw('case when TIMEDIFF(attendances.punchOut,attendances.punchIn) > 0 then TIMEDIFF(attendances.punchOut,attendances.punchIn) ELSE 0 END as timediff' ),
+    DB::raw('case when TIMEDIFF(attendances.punchOut,attendances.punchIn) > 0 then TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut) ELSE 0 END as timediffminutes' ),
+    DB::raw('case when TIMEDIFF(attendances.punchOut,attendances.punchIn) > 0 then ROUND(((employees.salary)/60) * TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut),2)  ELSE 0 END as earned' )
+   // DB::raw('ROUND(((employees.salary)/60) * TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut),2) as earned')
+    )
     ->where('emp_id', '=', $request->input('emp_id'))
     ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
     ->get()
@@ -114,7 +121,12 @@ else
 
     $users = DB::table('attendances')
     ->join('employees', 'employees.id', '=', 'attendances.emp_id')
-    ->select('attendances.*', 'employees.emp_name',DB::raw('TIMEDIFF(attendances.punchOut,attendances.punchIn) as timediff' ))
+    ->select('attendances.*', 'employees.emp_name',
+    DB::raw('case when TIMEDIFF(attendances.punchOut,attendances.punchIn) > 0 then TIMEDIFF(attendances.punchOut,attendances.punchIn) ELSE 0 END as timediff' ),
+    DB::raw('case when TIMEDIFF(attendances.punchOut,attendances.punchIn) > 0 then TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut) ELSE 0 END as timediffminutes' ),
+    DB::raw('case when TIMEDIFF(attendances.punchOut,attendances.punchIn) > 0 then ROUND(((employees.salary)/60) * TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut),2)  ELSE 0 END as earned' )
+   // DB::raw('ROUND(((employees.salary)/60) * TIMESTAMPDIFF(minute,attendances.punchIn,attendances.punchOut),2) as earned')
+    )
     ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
     ->get()
     ->toArray();
