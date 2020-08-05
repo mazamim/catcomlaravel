@@ -79,18 +79,17 @@ class EmployeeController extends Controller
     if($request->input('emp_id')=="all")
     {
 
-    // $users = DB::table('attendances')
-    // ->join('employees', 'employees.id', '=', 'attendances.emp_id')
-    // ->select('attendances.*', 'employees.emp_name')
-    // ->get()
-    // ->toArray();
-    $rerurnpunchOut = date('Y-m-d H:i:s', strtotime($emp->punchOut));
+        // $startTime = Carbon::parse('2020-02-11 04:04:26');
+        // $endTime = Carbon::parse('2020-02-11 04:36:56');
+        // $totalDuration = $endTime->diffForHumans($startTime);
 
-    $users = DB::table('attendances')
-    ->join('employees', 'employees.id', '=', 'attendances.emp_id')
-    ->select(DB::raw('attendances.*'),'employees.emp_name')
-    ->get()
-    ->toArray();
+   $users = DB::table('attendances')
+   ->join('employees', 'employees.id', '=', 'attendances.emp_id')
+   ->select('attendances.*', 'employees.emp_name',DB::raw('TIMEDIFF(attendances.punchOut,attendances.punchIn) as timediff' ))
+   ->get()
+   ->toArray();
+
+
 
 
     return response()->json($users,201);
@@ -101,7 +100,7 @@ elseif ($request->input('emp_id'))
 {
     $users = DB::table('attendances')
     ->join('employees', 'employees.id', '=', 'attendances.emp_id')
-    ->select('attendances.*', 'employees.emp_name')
+    ->select('attendances.*', 'employees.emp_name',DB::raw('TIMEDIFF(attendances.punchOut,attendances.punchIn) as timediff' ))
     ->where('emp_id', '=', $request->input('emp_id'))
     ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
     ->get()
@@ -115,7 +114,7 @@ else
 
     $users = DB::table('attendances')
     ->join('employees', 'employees.id', '=', 'attendances.emp_id')
-    ->select('attendances.*', 'employees.emp_name')
+    ->select('attendances.*', 'employees.emp_name',DB::raw('TIMEDIFF(attendances.punchOut,attendances.punchIn) as timediff' ))
     ->whereBetween('punchIn', array($request->input('startIn'),$request->input('endIn')))
     ->get()
     ->toArray();
