@@ -32,6 +32,20 @@ class ProjectController extends Controller
        // ->simplePaginate(15);
         return response()->json($data,200);
     }
+    //Route::get('projects8', 'ProjectController@show8')->middleware("cors");
+    public function show8()
+    {
+
+        $data = DB::table('my_projects')
+        ->join('customers', 'customers.id', '=', 'my_projects.cus_id')
+        ->join('clients', 'clients.id', '=', 'my_projects.cus_id')
+        ->select('my_projects.*', 'customers.cus_name','clients.client_name')
+        ->orderBy('updated_at','DESC')
+        ->limit(8)
+        ->get();
+
+        return response()->json($data,200);
+    }
 
 
     public function create()
@@ -49,12 +63,39 @@ class ProjectController extends Controller
         $data->status = $request->input('status');
         $data->remarks = $request->input('remarks');
         $data->cus_id = $request->input('cus_id');
-        $data->client_id = $request->input('cus_id');
+        $data->client_id = $request->input('client_id');
 
         $data->save();
         return response()->json($data,201);
     }
 
+
+   // Route::post('addbulk', 'ProjectController@addbulk')->middleware("cors");
+   public function addbulk(Request $request)
+   {
+    $alldata = $request->input();
+    $count=count($alldata)-1;
+
+  for($i = 0; $i<=$count; $i++)
+  {
+    $data = new MyProject();
+$data->address = $request->input($i.'.address');
+$data->jobType = $request->input($i.'.jobType');
+$data->describtion = $request->input($i.'.describtion');
+$data->status = $request->input($i.'.status');
+$data->remarks = $request->input($i.'.remarks');
+$data->cus_id = $request->input($i.'.cus_id');
+$data->client_id = $request->input($i.'.client_id');
+$data->save();
+
+    $data->save();
+
+  }
+
+
+return response()->json($alldata,201);
+
+   }
 
     public function show($id)
     {

@@ -46,7 +46,9 @@ Route::delete('task/{id}', 'TaskController@destroy')->middleware("cors");
 
 //projects routes
 Route::get('projects', 'ProjectController@index')->middleware("cors");
+Route::get('projects8', 'ProjectController@show8')->middleware("cors");
 Route::post('projects', 'ProjectController@store')->middleware("cors");
+Route::post('addbulk', 'ProjectController@addbulk')->middleware("cors");
 Route::get('project/{id}', 'ProjectController@show')->middleware("cors");
 Route::delete('project/{id}', 'ProjectController@destroy')->middleware("cors");
 Route::put('project/{id}', 'ProjectController@update')->middleware("cors");
