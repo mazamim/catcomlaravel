@@ -101,7 +101,43 @@ $products=[$products1,$products2,$products3,$products4,$products5];
     return response()->json($products,200);
 }
 
+//Route::get('countIndexPage', 'ProjectController@countIndexPage')->middleware("cors");
 
+public function countIndexPage()
+{
+    $my_projects = DB::table('my_projects')
+    ->select(DB::raw('count(*) as x'))
+    ->get();
+    $area1 = json_encode($my_projects, true);
+    $my_projects1 = trim($area1,"[{\"x\":}]");
+
+
+    $employees = DB::table('employees')
+    ->select(DB::raw('count(*) as x'))
+    ->get();
+    $area2 = json_encode($employees, true);
+    $employees1 = trim($area2,"[{\"x\":}]");
+
+    $customers = DB::table('customers')
+    ->select(DB::raw('count(*) as x'))
+    ->get();
+    $area3 = json_encode($customers, true);
+    $customers1 = trim($area3,"[{\"x\":}]");
+
+    $clients = DB::table('clients')
+    ->select(DB::raw('count(*) as x'))
+    ->get();
+    $area4 = json_encode($clients, true);
+    $clients1 = trim($area4,"[{\"x\":}]");
+
+    $products1 = collect(['name' => 'tickets' , 'value' => $my_projects1]);
+    $products2 = collect(['name' =>'employees' , 'value' => $employees1]);
+    $products3 = collect(['name' =>'customers' , 'value' => $customers1 ]);
+    $products4 = collect(['name' => 'clients', 'value' => $clients1]);
+
+$products=[$products1,$products2,$products3,$products4];
+    return response()->json($products,200);
+}
 
     //Route::get('projects8', 'ProjectController@show8')->middleware("cors");
     public function show8()
