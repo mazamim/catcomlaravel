@@ -71,5 +71,13 @@ Route::get('client/{id}', 'ClientController@show')->middleware("cors");
 Route::delete('client/{id}', 'ClientController@destroy')->middleware("cors");
 
 
+//RateCard routes
+Route::get('ratecards', 'RateCardController@index')->middleware("cors");
+Route::post('ratecards', 'RateCardController@store')->middleware("cors");
+Route::post('addbulkratecard', 'RateCardController@addbulk')->middleware("cors");
+Route::get('ratecard/{id}', 'RateCardController@show')->middleware("cors");
+Route::delete('ratecard/{id}', 'RateCardController@destroy')->middleware("cors");
+
+
 
 
