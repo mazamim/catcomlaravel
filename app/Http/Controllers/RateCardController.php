@@ -62,24 +62,32 @@ class RateCardController extends Controller
     {
         $alldata = $request->input();
         $count=count($alldata)-1;
+try{
 
-      for($i = 0; $i<=$count; $i++)
-      {
-        $data = new RateCard();
-    $data->sor = $request->input($i.'.sor');
-    $data->description = $request->input($i.'.description');
-    $data->uom = $request->input($i.'.uom');
-    $data->rate = $request->input($i.'.rate');
-    $data->category = $request->input($i.'.category');
-    $data->client_id = $request->input($i.'.client_id');
-    $data->remarks = $request->input($i.'.remarks');
-    $data->save();
+    DB::beginTransaction();
+    for($i = 0; $i<=$count; $i++)
+    {
+      $data = new RateCard();
+  $data->sor = $request->input($i.'.sor');
+  $data->description = $request->input($i.'.description');
+  $data->uom = $request->input($i.'.uom');
+  $data->rate = $request->input($i.'.rate');
+  $data->category = $request->input($i.'.category');
+  $data->client_id = $request->input($i.'.client_id');
+  $data->remarks = $request->input($i.'.remarks');
+  $data->save();
 
-        $data->save();
+    }
 
-      }
+    DB::commit();
+}
 
 
-    return response()->json($alldata,201);
+catch(Exception $e)
+{
+    DB::rollback();
+
+}
+return response()->json(null,201);
     }
 }

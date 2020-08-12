@@ -192,24 +192,36 @@ $products=[$products1,$products2,$products3,$products4];
     $alldata = $request->input();
     $count=count($alldata)-1;
 
-  for($i = 0; $i<=$count; $i++)
-  {
-    $data = new MyProject();
-$data->address = $request->input($i.'.address');
-$data->jobType = $request->input($i.'.jobType');
-$data->describtion = $request->input($i.'.describtion');
-$data->status = $request->input($i.'.status');
-$data->remarks = $request->input($i.'.remarks');
-$data->cus_id = $request->input($i.'.cus_id');
-$data->client_id = $request->input($i.'.client_id');
-$data->save();
-
-    $data->save();
-
-  }
+    try
+    {
+        DB::beginTransaction();
+        for($i = 0; $i<=$count; $i++)
+        {
+          $data = new MyProject();
+      $data->address = $request->input($i.'.address');
+      $data->jobType = $request->input($i.'.jobType');
+      $data->describtion = $request->input($i.'.describtion');
+      $data->status = $request->input($i.'.status');
+      $data->remarks = $request->input($i.'.remarks');
+      $data->cus_id = $request->input($i.'.cus_id');
+      $data->client_id = $request->input($i.'.client_id');
 
 
-return response()->json($alldata,201);
+          $data->save();
+
+        }
+        DB::commit();
+
+    }
+    catch(Exception $e)
+    {
+
+        DB::rollback();
+    }
+
+
+
+return response()->json(null,201);
 
    }
 
