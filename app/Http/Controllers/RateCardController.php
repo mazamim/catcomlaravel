@@ -19,7 +19,7 @@ class RateCardController extends Controller
     //Route::get('ratecards', 'RateCardController@index')->middleware("cors");
     public function index()
     {
-
+        return response()->json(RateCard::get(),200);
     }
 
 

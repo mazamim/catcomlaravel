@@ -15,8 +15,8 @@ class CreateMyProjectsTable extends Migration
     {
         Schema::create('my_projects', function (Blueprint $table) {
             $table->id();
-            $table->string('address');
             $table->string('jobType');
+            $table->string('address');
             $table->string('describtion');
             $table->string('status');
             $table->string('remarks')->nullable();
@@ -25,6 +25,7 @@ class CreateMyProjectsTable extends Migration
             $table->timestamps();
             $table->foreign('cus_id')->references('id')->on('customers');
             $table->foreign('client_id')->references('id')->on('clients');
+
         });
     }
 
