@@ -328,4 +328,17 @@ return response()->json(null,201);
 
     }
 
+    //Route::get('ratechildbyproject/{id}', 'ProjectController@ratechildbyproject')->middleware("cors");
+
+    public function ratechildbyproject($id)
+    {
+        $data = DB::table('ratechildren')
+        ->where('project_id','=', $id)
+        ->get()
+        ->toArray();
+
+        return response()->json($data,200);
+
+    }
+
 }

@@ -55,6 +55,7 @@ Route::get('countIndexPage', 'ProjectController@countIndexPage')->middleware("co
 Route::post('addbulk', 'ProjectController@addbulk')->middleware("cors");
 Route::get('project/{id}', 'ProjectController@show')->middleware("cors");
 Route::get('projectchild/{id}', 'ProjectController@projectchild')->middleware("cors");
+Route::get('ratechildbyproject/{id}', 'ProjectController@ratechildbyproject')->middleware("cors");
 Route::delete('project/{id}', 'ProjectController@destroy')->middleware("cors");
 Route::put('project/{id}', 'ProjectController@update')->middleware("cors");
 
