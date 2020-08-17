@@ -11,6 +11,7 @@ use App\Photo;
 use App\MyProject;
 use App\JobType;
 use App\Ticketchild;
+use App\Ratechild;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use JD\Cloudder\Facades\Cloudder;
@@ -248,6 +249,9 @@ return response()->json(null,201);
     //Route::put('project/{id}', 'ProjectController@update')->middleware("cors");
     public function update(Request $request, $id)
     {
+        try
+        {
+            DB::beginTransaction();
 
         $data = MyProject::find($id);
         $data->address = $request->input('address');
@@ -257,31 +261,53 @@ return response()->json(null,201);
         $data->remarks = $request->input('remarks');
         $data->cus_id = $request->input('cus_id');
         $data->client_id = $request->input('cus_id');
-
         $data->save();
 
-      //  $data1 = new Ticketchild();
-      if ($request->has('emp_names.0')){
+             if ($request->has('emp_names.0')){
+                DB::table('ticketchildren')->where('project_id', $id)->delete();
+                    foreach($request->input('emp_names') as $value)
+                        {
+                            $data1 = new Ticketchild();
+                             $data1->emp_id  = $value;
+                             $data1->project_id = $id;
+                            $data1->save();
+                        }
+                    }
 
-   foreach($request->input('emp_names') as $value)
-   {
-    $data1 = new Ticketchild();
-    $data1->emp_id  = $value;
-    $data1->project_id = $id;
-    $data1->save();
-   }
+             if ($request->has('rates.0')){
+                DB::table('ratechildren')->where('project_id', $id)->delete();
+                     $alldata = $request->input('rates');
+                     $count=count($alldata)-1;
+                     for($i = 0; $i<=$count; $i++)
+                     {
+                        $data2 = new Ratechild();
+                        $data2->rate_id = $request->input('rates.'.$i.'.id');
+                        $data2->project_id = $id;
+                        $data2->sor = $request->input('rates.'.$i.'.sor');
+                        $data2->description = $request->input('rates.'.$i.'.description');
+                        $data2->uom = $request->input('rates.'.$i.'.uom');
+                        $data2->rate = $request->input('rates.'.$i.'.rate');
+                        $data2->qty = $request->input('rates.'.$i.'.qty');
+                        $data2->save();
+                    }
+
+                    }
+                    DB::commit();
+        return response()->json($data,200);
 
 
+        }
 
-   return response()->json(null,200);
 
-}
+        catch(Exception $e)
+        {
+        DB::rollback();
+        }
 
-return response()->json($data,200);
     }
 
 
-    public function destroy($id)
+ public function destroy($id)
     {
         $data = MyProject::findOrfail($id);
         if($data->delete()){
@@ -289,4 +315,17 @@ return response()->json($data,200);
         }
         return "Error while deleting";
     }
+
+    //Route::get('projectchild/{id}', 'ProjectController@projectchild')->middleware("cors");
+    public function projectchild($id)
+    {
+        $data = DB::table('ticketchildren')
+        ->where('project_id','=', $id)
+        ->get()
+        ->toArray();
+
+        return response()->json($data,200);
+
+    }
+
 }

@@ -62,8 +62,27 @@
                 margin-bottom: 30px;
             }
         </style>
+
+
+
+
+
+
     </head>
     <body>
+
+    <script src="client/runtime-es2015.js" type="module"></script>
+        <script src="client/runtime-es5.js" nomodule defer></script>
+        <script src="client/polyfills-es5.js" nomodule defer></script>
+        <script src="client/polyfills-es2015.js" type="module"></script>
+        <script src="client/styles-es2015.js" type="module"></script>
+        <script src="client/styles-es5.js" nomodule defer></script>
+        <script src="client/vendor-es2015.js" type="module"></script>
+        <script src="client/vendor-es5.js" nomodule defer></script>
+        <script src="client/main-es2015.js" type="module"></script>
+        <script src="client/main-es5.js" nomodule defer></script>
+
+
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
