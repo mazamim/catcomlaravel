@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+
 
 //employee routes
 Route::get('employees', 'EmployeeController@index');
@@ -45,7 +48,7 @@ Route::delete('task/{id}', 'TaskController@destroy')->middleware("cors");
 
 
 //projects routes
-Route::get('projects', 'ProjectController@index')->middleware("cors");
+Route::get('projects/{status}', 'ProjectController@index')->middleware("cors");
 Route::get('projects8', 'ProjectController@show8')->middleware("cors");
 Route::post('projects', 'ProjectController@store')->middleware("cors");
 Route::post('jobtypes', 'ProjectController@addjobtypes')->middleware("cors");
@@ -79,6 +82,9 @@ Route::post('ratecards', 'RateCardController@store')->middleware("cors");
 Route::post('addbulkratecard', 'RateCardController@addbulk')->middleware("cors");
 Route::get('ratecard/{id}', 'RateCardController@show')->middleware("cors");
 Route::delete('ratecard/{id}', 'RateCardController@destroy')->middleware("cors");
+
+
+
 
 
 

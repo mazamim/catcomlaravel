@@ -14,7 +14,7 @@ class CreateMyProjectsTable extends Migration
     public function up()
     {
         Schema::create('my_projects', function (Blueprint $table) {
-            $table->id();
+            $table->id()->start_from(11200);
             $table->string('jobType');
             $table->string('address');
             $table->string('describtion');

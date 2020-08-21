@@ -23,16 +23,32 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status)
     {
-        //return response()->json(MyProject::get(),200);
-        $data = DB::table('my_projects')
-        ->join('customers', 'customers.id', '=', 'my_projects.cus_id')
-        ->join('clients', 'clients.id', '=', 'my_projects.cus_id')
-        ->select('my_projects.*', 'customers.cus_name','clients.client_name')
-        ->get();
-       // ->simplePaginate(15);
-        return response()->json($data,200);
+        if($status=="All_Jobs"){
+
+            $data = DB::table('my_projects')
+            ->join('customers', 'customers.id', '=', 'my_projects.cus_id')
+            ->join('clients', 'clients.id', '=', 'my_projects.cus_id')
+            ->select('my_projects.*', 'customers.cus_name','clients.client_name')
+            ->get();
+           // ->simplePaginate(15);
+            return response()->json($data,200);
+
+        }
+
+        else{
+
+            $data = DB::table('my_projects')
+            ->join('customers', 'customers.id', '=', 'my_projects.cus_id')
+            ->join('clients', 'clients.id', '=', 'my_projects.cus_id')
+            ->select('my_projects.*', 'customers.cus_name','clients.client_name')
+            ->where('my_projects.status', '=', $status)
+            ->get();
+           // ->simplePaginate(15);
+            return response()->json($data,200);
+        }
+
     }
 
     //Route::get('jobtypes', 'ProjectController@getjobtypes')->middleware("cors");
